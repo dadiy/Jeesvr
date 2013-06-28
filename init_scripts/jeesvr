@@ -1,0 +1,42 @@
+#!/bin/bash
+#
+# jeesvr        Script to control Jeesvr process
+#
+# Author:       David Abbishaw
+#
+# description:  Starts and stops process
+
+start() {
+        nohup /remotecommands/jeesvr/run_jeesvr.sh >/tmp/jeesvr_nohup.out 2>&1 &
+}
+
+stop() {
+        kill -9 `ps -waux |grep "run_jeesvr.sh" |grep -v "grep" | gawk '{print $2}'`  > /dev/null 2>&1;
+        kill -9 `ps -waux |grep "jeesvr.sh" |grep -v "grep" | gawk '{print $2}'`  > /dev/null 2>&1;
+
+
+}
+# See how we were called.
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  status)
+        ps -aux |grep jeesvr | grep -v grep;
+        ;;
+  restart|reload)
+        stop
+        start
+        ;;
+  *)
+        # do not advertise unreasonable commands that there is no reason
+        # to use with this device
+        echo $"Usage: $0 {start|stop|status|restart|reload}"
+        exit 1
+esac
+
+exit 0
+
