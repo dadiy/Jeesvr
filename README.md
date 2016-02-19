@@ -1,10 +1,1 @@
-This is a small to test commits.
-
-
-
-
-Third set of changes here.
-
-
-
-
+Jeesvr - A small PHP app that can read incoming messages from a jeenode and send commands.
